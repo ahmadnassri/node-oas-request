@@ -5,7 +5,8 @@
     "title": "httpbin",
     "description": "An unofficial OpenAPI definition for [httpbin.org](https://httpbin.org)."
   },
-  "servers": [{
+  "servers": [
+    {
       "url": "https://httpbin.org"
     },
     {
@@ -18,7 +19,8 @@
       "url": "http://eu.httpbin.org"
     }
   ],
-  "tags": [{
+  "tags": [
+    {
       "name": "auth",
       "description": "Operations for testing various authentication types"
     },
@@ -31,18 +33,16 @@
       "description": "Return the specified HTTP status code, or a random status code if more than one are given"
     }
   ],
-  "externalDocs": {
-    "url": "http://httpbin.org/legacy"
-  },
   "paths": {
     "/": {
       "get": {
-        "operationId": "get",
+        "operationId": "getTime",
         "summary": "The current time, in a variety of formats",
         "tags": [
           "time"
         ],
-        "servers": [{
+        "servers": [
+          {
             "url": "https://now.httpbin.org"
           },
           {
@@ -86,11 +86,12 @@
     },
     "/when/{human-timestamp}": {
       "get": {
-        "operationId": "when",
+        "operationId": "whenTime",
         "tags": [
           "time"
         ],
-        "servers": [{
+        "servers": [
+          {
             "url": "http://now.httpbin.org"
           },
           {
@@ -119,6 +120,7 @@
     },
     "/parse/{machine-timestamp}": {
       "get": {
+        "operationId": "parseTime",
         "tags": [
           "time"
         ],
@@ -155,6 +157,7 @@
     },
     "/get": {
       "get": {
+        "operationId": "httpGet",
         "tags": [
           "HTTP methods"
         ],
@@ -178,6 +181,7 @@
     },
     "/delete": {
       "delete": {
+        "operationId": "httpDelete",
         "tags": [
           "HTTP methods"
         ],
@@ -194,6 +198,7 @@
     },
     "/post": {
       "post": {
+        "operationId": "httpPost",
         "tags": [
           "HTTP methods"
         ],
@@ -360,6 +365,7 @@
     },
     "/ip": {
       "get": {
+        "operationId": "getIP",
         "summary": "Returns Origin IP.",
         "responses": {
           "200": {
