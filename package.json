@@ -1,0 +1,35 @@
+{
+  "version": "0.0.0-semantically-released",
+  "name": "oas-request",
+  "description": "OAS 3.x dynamic request client",
+  "author": "Ahmad Nassri <email@ahmadnassri.com> (https://www.ahmadnassri.com)",
+  "homepage": "https://github.com/ahmadnassri/node-oas-request",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ahmadnassri/node-oas-request.git"
+  },
+  "license": "MIT",
+  "main": "lib/index.js",
+  "keywords": [
+    "oas",
+    "request"
+  ],
+  "engines": {
+    "node": ">=6"
+  },
+  "files": [
+    "lib"
+  ],
+  "bugs": {
+    "url": "https://github.com/ahmadnassri/node-oas-request/issues"
+  },
+  "scripts": {
+    "test": "tap test --100 --coverage-report=lcov --no-browser",
+    "test:watch": "tap test --watch"
+  },
+  "devDependencies": {
+    "sinon": "^9.0.2",
+    "tap": "^14.10.8"
+  },
+  "dependencies": {}
+}
