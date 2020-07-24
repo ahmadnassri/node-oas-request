@@ -33,6 +33,27 @@ test('methods are callable', assert => {
       port: '',
       host: 'pets.com',
       method: 'get',
+      path: '/pets/%7BpetId%7D',
+      headers: {},
+      body: undefined
+    })
+  })
+
+  const API = client(spec)
+  const api = new API('https://pets.com')
+
+  api.showPetById()
+})
+
+test('methods options', assert => {
+  assert.plan(1)
+
+  http.callsFake(options => {
+    assert.deepEqual(options, {
+      protocol: 'https',
+      port: '',
+      host: 'pets.com',
+      method: 'get',
       path: '/pets/1',
       headers: {},
       body: undefined
