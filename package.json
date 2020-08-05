@@ -24,8 +24,8 @@
     "url": "https://github.com/ahmadnassri/node-oas-request/issues"
   },
   "scripts": {
-    "test": "tap test --100 --coverage-report=lcov --no-browser",
-    "test:watch": "tap test --watch"
+    "test": "tap test --no-coverage",
+    "test:100": "tap test --100 --coverage-report=lcov --no-browser"
   },
   "devDependencies": {
     "sinon": "^9.0.2",
