@@ -1,7 +1,7 @@
 {
   "version": "0.0.0-semantically-released",
   "name": "oas-request",
-  "description": "OAS 3.x dynamic request client",
+  "description": "Feed it a JSON Spec, it will spit out a lightweight HTTP client!",
   "author": "Ahmad Nassri <email@ahmadnassri.com> (https://www.ahmadnassri.com)",
   "homepage": "https://github.com/ahmadnassri/node-oas-request",
   "repository": {
@@ -30,6 +30,5 @@
   "devDependencies": {
     "sinon": "^9.0.2",
     "tap": "^14.10.8"
-  },
-  "dependencies": {}
+  }
 }

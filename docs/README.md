@@ -1,10 +1,3 @@
----
-title: OpenAPI Spec HTTP Client
-description: Feed it a JSON Spec, it will spit out a lightweight HTTP client!
-repo: ahmadnassri/node-oas-request
-package: oas-request
----
-
 ## Why
 
 While there are plenty of _"code generators"_ for OpenAPI, they create a lot of "garbage" code that you may not need,

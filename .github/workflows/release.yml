@@ -6,18 +6,16 @@ on:
       - master
 
 jobs:
-  dependencies:
+  audit:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2.1.1
-
-      # run checks
       - run: npm audit --audit-level=moderate
 
   test:
-    needs: dependencies
+    needs: audit
 
     strategy:
       matrix:
@@ -28,17 +26,15 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-
       - uses: actions/cache@v2
         with:
           path: ~/.npm
-          key: client-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
 
       - uses: actions/setup-node@v2.1.1
         with:
           node-version: ${{ matrix.node-version }}
 
-      # run test
       - run: npm ci
       - run: npm run test
 
@@ -49,9 +45,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-
-      - name: semantic-release
-        uses: ahmadnassri/action-semantic-release@v1
+      - uses: ahmadnassri/action-semantic-release@v1
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN || secrets.GITHUB_TOKEN }}

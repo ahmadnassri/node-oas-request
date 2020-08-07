@@ -1,0 +1,8 @@
+version: 2.0
+
+id: oas-request
+
+about:
+  title: OpenAPI Spec HTTP Client
+  description: Feed it a JSON Spec, it will spit out a lightweight HTTP client!
+  repository: ahmadnassri/node-oas-request
