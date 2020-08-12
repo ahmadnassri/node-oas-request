@@ -28,7 +28,7 @@
     "test:100": "tap test --100 --coverage-report=lcov --no-browser"
   },
   "devDependencies": {
-    "sinon": "^9.0.2",
+    "sinon": "^9.0.3",
     "tap": "^14.10.8"
   }
 }
