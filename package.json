@@ -1,7 +1,7 @@
 {
   "version": "0.0.0-semantically-released",
   "name": "oas-request",
-  "description": "OAS 3.x dynamic request client",
+  "description": "Feed it a JSON Spec, it will spit out a lightweight HTTP client!",
   "author": "Ahmad Nassri <email@ahmadnassri.com> (https://www.ahmadnassri.com)",
   "homepage": "https://github.com/ahmadnassri/node-oas-request",
   "repository": {
@@ -24,12 +24,11 @@
     "url": "https://github.com/ahmadnassri/node-oas-request/issues"
   },
   "scripts": {
-    "test": "tap test --100 --coverage-report=lcov --no-browser",
-    "test:watch": "tap test --watch"
+    "test": "tap test --no-coverage",
+    "test:100": "tap test --100 --coverage-report=lcov --no-browser"
   },
   "devDependencies": {
-    "sinon": "^9.0.2",
+    "sinon": "^9.0.3",
     "tap": "^14.10.8"
-  },
-  "dependencies": {}
+  }
 }
