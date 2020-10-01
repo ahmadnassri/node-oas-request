@@ -1,0 +1,76 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Empty security",
+    "license": {
+      "name": "MIT"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://example.com/v1"
+    }
+  ],
+  "paths": {
+    "/method-specific-security": {
+      "get": {
+        "security": [
+        ],
+        "summary": "List all gets",
+        "operationId": "testMethodSpecific",
+        "responses": {
+          "200": {
+            "description": "A paged array of foos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Foos"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/global-security": {
+      "get": {
+        "summary": "List all gets",
+        "operationId": "testGlobal",
+        "responses": {
+          "200": {
+            "description": "A paged array of foos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Foos"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "security": [],
+  "components": {
+    "securitySchemes": {
+    },
+    "schemas": {
+      "Foo": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          }
+        }
+      },
+      "Foos": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Foo"
+        }
+      }
+    }
+  }
+}

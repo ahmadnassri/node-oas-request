@@ -1,0 +1,70 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Missing security",
+    "license": {
+      "name": "MIT"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://example.com/v1"
+    }
+  ],
+  "paths": {
+    "/global-security": {
+      "get": {
+        "summary": "List all gets",
+        "operationId": "testGlobal",
+        "responses": {
+          "200": {
+            "description": "A paged array of foos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Foos"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "MissingSecurityMethod": []
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "ApiKeyAuthHeader": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-API-Key"
+      },
+      "ApiKeyAuthQuery": {
+        "type": "apiKey",
+        "in": "query",
+        "name": "API-Key"
+      }
+    },
+    "schemas": {
+      "Foo": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          }
+        }
+      },
+      "Foos": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Foo"
+        }
+      }
+    }
+  }
+}

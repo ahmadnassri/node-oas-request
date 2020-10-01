@@ -1,0 +1,120 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Global security",
+    "license": {
+      "name": "MIT"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://example.com/v1"
+    }
+  ],
+  "paths": {
+    "/method-specific-security": {
+      "get": {
+        "security": [
+          {
+            "ApiKeyAuthQuery": []
+          }
+        ],
+        "summary": "List all gets",
+        "operationId": "testMethodSpecific",
+        "responses": {
+          "200": {
+            "description": "A paged array of foos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Foos"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/global-security": {
+      "get": {
+        "summary": "List all gets",
+        "operationId": "testGlobal",
+        "responses": {
+          "200": {
+            "description": "A paged array of foos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Foos"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "ApiKeyAuthHeader": []
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "ApiKeyAuthHeader": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-API-KEY"
+      },
+      "ApiKeyAuthQuery": {
+        "type": "apiKey",
+        "in": "query",
+        "name": "API-Key"
+      }
+    },
+    "schemas": {
+      "Foo": {
+        "type": "object",
+        "required": [
+          "id",
+          "name"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "tag": {
+            "type": "string"
+          }
+        }
+      },
+      "Foos": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Foo"
+        }
+      },
+      "Error": {
+        "type": "object",
+        "required": [
+          "code",
+          "message"
+        ],
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

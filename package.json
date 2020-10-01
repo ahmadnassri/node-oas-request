@@ -31,5 +31,8 @@
   "devDependencies": {
     "sinon": "^9.0.3",
     "tap": "^14.10.8"
+  },
+  "dependencies": {
+    "jsonwebtoken": "^8.5.1"
   }
 }
