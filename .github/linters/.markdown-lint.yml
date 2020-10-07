@@ -15,7 +15,7 @@ MD005: true
 # Unordered list indentation
 MD007:
   indent: 2
-  start_indented: true
+  start_indented: false
 
 # Trailing spaces
 MD009:
