@@ -30,7 +30,7 @@ const spec = require('./petstore.json')
 const API = require('oas-request')(spec)
 
 // define root server url
-const api = new API('https://httpbin.org')
+const client = new API('https://httpbin.org')
 
 // auto generated methods matching your OAS operationIds
 await client.listPets(options)
@@ -75,7 +75,7 @@ const spec = require('./petstore.json')
 const API = require('oas-request')(spec)
 
 // define root server url
-const api = new API('https://httpbin.org')
+const client = new API('https://httpbin.org')
 
 // auto generated methods matching your OAS operationIds
 await client.getPetById({
