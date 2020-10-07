@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/setup-node@v2.1.1
+      - uses: actions/setup-node@v2.1.2
       - uses: actions/checkout@v2
       - run: npm audit --audit-level=moderate
 
@@ -28,7 +28,7 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-      - uses: actions/setup-node@v2.1.1
+      - uses: actions/setup-node@v2.1.2
         with:
           node-version: ${{ matrix.node-version }}
 
