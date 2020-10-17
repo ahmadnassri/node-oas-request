@@ -1,9 +1,11 @@
 name: super-linter
 
-on: push
+on: [ push, pull_request ]
 
 jobs:
   lint:
+    timeout-minutes: 5
+
     runs-on: ubuntu-latest
 
     steps:
