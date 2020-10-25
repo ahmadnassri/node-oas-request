@@ -3,20 +3,17 @@
 Feed it a JSON Spec, it will spit out a lightweight HTTP client\!
 
 [![license][license-img]][license-url]
-[![version][npm-img]][npm-url]
+[![release][release-img]][release-url]
 [![super linter][super-linter-img]][super-linter-url]
 [![test][test-img]][test-url]
-[![release][release-img]][release-url]
+[![semantic][semantic-img]][semantic-url]
 
 ## Why
 
-While there are plenty of *"code generators"* for OpenAPI, they create a
-lot of "garbage" code that you may not need, and there while there are
-others that follow a similar path of this library, they still attempt to
-do too much\! *(like request validation before sending)*
+While there are plenty of *"code generators"* for OpenAPI, they create a lot of "garbage" code that you may not need,
+and there while there are others that follow a similar path of this library, they still attempt to do too much\! *(like request validation before sending)*
 
-This library does not concern itself with anything other than
-constructing an HTTP request and sending it\!
+This library does not concern itself with anything other than constructing an HTTP request and sending it\!
 
 <details>
   <summary>FAQ</summary>
@@ -53,8 +50,7 @@ await client.showPetById(options)
 
 ### Options
 
-Each generated method accepts an `options` object with the following
-properties:
+Each generated method accepts an `options` object with the following properties:
 
 | name          | type     | required | description          |
 | ------------- | -------- | -------- | -------------------- |
@@ -129,8 +125,8 @@ Content-Type: application/json
 [license-url]: LICENSE
 [license-img]: https://badgen.net/github/license/ahmadnassri/node-oas-request
 
-[npm-url]: https://www.npmjs.com/package/oas-request
-[npm-img]: https://badgen.net/npm/v/oas-request
+[release-url]: https://github.com/ahmadnassri/node-oas-request/releases
+[release-img]: https://badgen.net/github/release/ahmadnassri/node-oas-request
 
 [super-linter-url]: https://github.com/ahmadnassri/node-oas-request/actions?query=workflow%3Asuper-linter
 [super-linter-img]: https://github.com/ahmadnassri/node-oas-request/workflows/super-linter/badge.svg
@@ -138,5 +134,5 @@ Content-Type: application/json
 [test-url]: https://github.com/ahmadnassri/node-oas-request/actions?query=workflow%3Atest
 [test-img]: https://github.com/ahmadnassri/node-oas-request/workflows/test/badge.svg
 
-[release-url]: https://github.com/ahmadnassri/node-oas-request/actions?query=workflow%3Arelease
-[release-img]: https://github.com/ahmadnassri/node-oas-request/workflows/release/badge.svg
+[semantic-url]: https://github.com/ahmadnassri/node-oas-request/actions?query=workflow%3Arelease
+[semantic-img]: https://badgen.net/badge/📦/semantically%20released/blue
