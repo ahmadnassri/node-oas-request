@@ -48,6 +48,30 @@ await client.createPets(options)
 await client.showPetById(options)
 ```
 
+#### Yaml Support?
+
+<details>
+  <summary>This package does not support OAS Yaml format, but you can easily convert to JSON before calling `oas-rqeuest`</summary>
+
+  ###### using [`js-yaml`](https://www.npmjs.com/package/js-yaml)
+
+  ```js
+  const yaml = require('js-yaml')
+  const fs   = require('fs')
+  
+  const spec = yaml.safeLoad(fs.readFileSync('openapi.yml', 'utf8'))
+
+
+  const API = require('oas-request')(spec)
+  ```
+
+  ###### using [`apidevtools/swagger-cli`](https://www.npmjs.com/package/@apidevtools/swagger-cli)
+  
+  ```bash
+  npx apidevtools/swagger-cli bundle spec/openapi.yml --outfile spec.json
+  ```
+</details>
+
 ### Options
 
 Each generated method accepts an `options` object with the following properties:
