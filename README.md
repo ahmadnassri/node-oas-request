@@ -143,8 +143,64 @@ Content-Type: application/json
 { "name": "ruby", "isGoodDog": true }
 ```
 
-  [`js-yaml`]: https://www.npmjs.com/package/js-yaml
-  [`apidevtools/swagger-cli`]: https://www.npmjs.com/package/@apidevtools/swagger-cli
+### Security
+
+The API maybe protected by mechanism such as an API key, JWT Token, or simple Bearer tokens.
+
+The library supports the following security options.
+
+- HTTP Authorization Header `http`
+  - Bearer (Implemented)
+    - JWT
+  - Basic (Not implemented)
+- API keys in headers, query string or cookies `apiKey`
+  - Headers (Implemented)
+  - Query string (Implemented)
+  - Cookies (Not implemented)
+- OAuth 2 (Not implemented)
+- OpenID Connect Discovery (Not implemented)
+
+Security tokens can be defined as a global configuration
+
+``` js
+const spec = require('./petstore.json')
+const API = require('oas-request')(spec)
+
+// define root server url
+const client = new API('https://httpbin.org', { 
+  secret: 'secret', 
+  jwt: { 
+    exp: '5m',
+    payload: {}
+  }
+})
+
+// Assuming if `getPetById` has per method security defined, 
+// or a global security stanza exists in the OAS.
+
+// This will call the endpoint with the secret configured from the API constructor.
+await client.getPetById({
+  params: { petId: 'my-pet' }
+})
+
+// However, you have the option to override the security options per method as well.
+await client.getPetById({
+  params: { petId: 'my-pet' },
+  secret: 'per-method-secret', 
+  jwt: { 
+    exp: '10m',
+    payload: {}
+  }
+})
+```
+
+#### JWT
+
+The library assumes that the API is protected with at most a single security method.
+If you need complex security methods, submit a PR.
+
+[`js-yaml`]: https://www.npmjs.com/package/js-yaml
+[`apidevtools/swagger-cli`]: https://www.npmjs.com/package/@apidevtools/swagger-cli
 
 ----
 > Author: [Ahmad Nassri](https://www.ahmadnassri.com/) &bull;

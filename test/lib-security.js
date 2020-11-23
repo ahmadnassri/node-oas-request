@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken')
-const { parseSecurity } = require('../lib/security')
+const parseSecurity = require('../lib/security')
 const { test } = require('tap')
 
 test('simple case', async (assert) => {
