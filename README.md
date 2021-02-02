@@ -1,6 +1,6 @@
 # OpenAPI Spec HTTP Client
 
-Feed it a JSON Spec, it will spit out a lightweight HTTP client\!
+Feed it a JSON Spec, it will spit out a lightweight HTTP client!
 
 [![license][license-img]][license-url]
 [![release][release-img]][release-url]
@@ -11,14 +11,14 @@ Feed it a JSON Spec, it will spit out a lightweight HTTP client\!
 ## Why
 
 While there are plenty of *"code generators"* for OpenAPI, they create a lot of "garbage" code that you may not need,
-and there while there are others that follow a similar path of this library, they still attempt to do too much\! *(like request validation before sending)*
+and there while there are others that follow a similar path of this library, they still attempt to do too much! *(like request validation before sending)*
 
-This library does not concern itself with anything other than constructing an HTTP request and sending it\!
+This library does not concern itself with anything other than constructing an HTTP request and sending it!
 
 <details>
   <summary>FAQ</summary>
-  
-  - **Why no validation?**  
+
+-   **Why no validation?**  
     You should rely on validation & sanitation at the source of truth: The OpenAPI server itself!
 
 </details>
@@ -27,11 +27,11 @@ This library does not concern itself with anything other than constructing an HT
 
 Some feature highlights:
 
-  - Zero dependencies\!
-  - Lightweight
-  - Node.js and Browser ready *(browser support coming soon)*
-  - Automatic methods creation
-  - Path Templating
+-   Zero dependencies!
+-   Lightweight
+-   Node.js and Browser ready *(browser support coming soon)*
+-   Automatic methods creation
+-   Path Templating
 
 ## Usage
 
@@ -53,23 +53,24 @@ await client.showPetById(options)
 <details>
   <summary>This package does not support OAS Yaml format, but you can easily convert to JSON before calling `oas-rqeuest`</summary>
 
-  ###### using [`js-yaml`](https://www.npmjs.com/package/js-yaml)
+###### using [`js-yaml`](https://www.npmjs.com/package/js-yaml)
 
-  ```js
-  const yaml = require('js-yaml')
-  const fs   = require('fs')
-  
-  const spec = yaml.safeLoad(fs.readFileSync('openapi.yml', 'utf8'))
+``` js
+const yaml = require('js-yaml')
+const fs   = require('fs')
+
+const spec = yaml.safeLoad(fs.readFileSync('openapi.yml', 'utf8'))
 
 
-  const API = require('oas-request')(spec)
-  ```
+const API = require('oas-request')(spec)
+```
 
-  ###### using [`apidevtools/swagger-cli`](https://www.npmjs.com/package/@apidevtools/swagger-cli)
-  
-  ```bash
-  npx apidevtools/swagger-cli bundle spec/openapi.yml --outfile spec.json
-  ```
+###### using [`apidevtools/swagger-cli`](https://www.npmjs.com/package/@apidevtools/swagger-cli)
+
+``` bash
+npx apidevtools/swagger-cli bundle spec/openapi.yml --outfile spec.json
+```
+
 </details>
 
 ### Options
@@ -77,7 +78,7 @@ await client.showPetById(options)
 Each generated method accepts an `options` object with the following properties:
 
 | name          | type     | required | description          |
-| ------------- | -------- | -------- | -------------------- |
+|---------------|----------|----------|----------------------|
 | **`body`**    | `Object` | ❌        | HTTP request body    |
 | **`headers`** | `Object` | ❌        | HTTP request headers |
 | **`params`**  | `Object` | ❌        | Path parameters      |
