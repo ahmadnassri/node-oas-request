@@ -53,7 +53,7 @@ await client.showPetById(options)
 <details>
   <summary>This package does not support OAS Yaml format, but you can easily convert to JSON before calling `oas-rqeuest`</summary>
 
-###### using [`js-yaml`](https://www.npmjs.com/package/js-yaml)
+###### using [`js-yaml`][]
 
 ``` js
 const yaml = require('js-yaml')
@@ -65,7 +65,7 @@ const spec = yaml.safeLoad(fs.readFileSync('openapi.yml', 'utf8'))
 const API = require('oas-request')(spec)
 ```
 
-###### using [`apidevtools/swagger-cli`](https://www.npmjs.com/package/@apidevtools/swagger-cli)
+###### using [`apidevtools/swagger-cli`][]
 
 ``` bash
 npx apidevtools/swagger-cli bundle spec/openapi.yml --outfile spec.json
@@ -142,6 +142,9 @@ Content-Type: application/json
 
 { "name": "ruby", "isGoodDog": true }
 ```
+
+  [`js-yaml`]: https://www.npmjs.com/package/js-yaml
+  [`apidevtools/swagger-cli`]: https://www.npmjs.com/package/@apidevtools/swagger-cli
 
 ----
 > Author: [Ahmad Nassri](https://www.ahmadnassri.com/) &bull;
