@@ -14,7 +14,8 @@ require.cache[require.resolve('../lib/http/')] = { exports: http }
 const globalSecuritySpec = require('./fixtures/global-security.json')
 const methodSecuritySpec = require('./fixtures/method-security.json')
 const missingSecuritySpec = require('./fixtures/missing-security.json')
-const emptySecuritySpec = require('./fixtures/empty-security.json')
+const globalEmptySecuritySpec = require('./fixtures/global-empty-security.json')
+const methodEmptySecuritySpec = require('./fixtures/method-empty-security.json')
 
 const client = require('..')
 
@@ -84,11 +85,7 @@ test('global security with method security is applied', async (assert) => {
       host: 'example.com',
       method: 'get',
       path: '/method-specific-security?API-Key=secret',
-      headers: {
-        'X-API-KEY': [
-          'secret'
-        ]
-      },
+      headers: {},
       body: undefined
     })
   })
@@ -109,11 +106,7 @@ test('global security with method security override', async (assert) => {
       host: 'example.com',
       method: 'get',
       path: '/method-specific-security?API-Key=method-secret',
-      headers: {
-        'X-API-KEY': [
-          'method-secret'
-        ]
-      },
+      headers: {},
       body: undefined
     })
   })
@@ -197,7 +190,7 @@ test('missing security raise error', async (assert) => {
   }
 })
 
-test('empty security global method', async (assert) => {
+test('global empty security global method', async (assert) => {
   assert.plan(1)
 
   http.callsFake(options => {
@@ -212,13 +205,13 @@ test('empty security global method', async (assert) => {
     })
   })
 
-  const API = client(emptySecuritySpec)
+  const API = client(globalEmptySecuritySpec)
   const api = new API('http://example.com')
 
   await api.testGlobal()
 })
 
-test('empty security per method', async (assert) => {
+test('global empty security per method', async (assert) => {
   assert.plan(1)
 
   http.callsFake(options => {
@@ -233,8 +226,55 @@ test('empty security per method', async (assert) => {
     })
   })
 
-  const API = client(emptySecuritySpec)
+  const API = client(globalEmptySecuritySpec)
   const api = new API('http://example.com')
 
   await api.testMethodSpecific()
 })
+
+test('method empty security global method', async (assert) => {
+  assert.plan(1)
+
+  http.callsFake(options => {
+    assert.deepEqual(options, {
+      protocol: 'http',
+      port: '',
+      host: 'example.com',
+      method: 'get',
+      path: '/global-security',
+      headers: {
+        authorization: [
+          'Bearer secret'
+        ]
+      },
+      body: undefined
+    })
+  })
+
+  const API = client(methodEmptySecuritySpec)
+  const api = new API('http://example.com', { secret: 'secret' })
+
+  await api.testGlobal()
+})
+
+test('method empty security per method', async (assert) => {
+  assert.plan(1)
+
+  http.callsFake(options => {
+    assert.deepEqual(options, {
+      protocol: 'http',
+      port: '',
+      host: 'example.com',
+      method: 'get',
+      path: '/method-specific-security',
+      headers: {},
+      body: undefined
+    })
+  })
+
+  const API = client(methodEmptySecuritySpec)
+  const api = new API('http://example.com', { secret: 'secret' })
+
+  await api.testMethodSpecific()
+})
+
