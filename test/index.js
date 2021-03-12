@@ -31,7 +31,7 @@ test('methods are callable', assert => {
     assert.deepEqual(options, {
       protocol: 'https',
       port: '',
-      host: 'pets.com',
+      hostname: 'pets.com',
       method: 'get',
       path: '/pets/%7BpetId%7D',
       headers: {},
@@ -52,7 +52,7 @@ test('methods options', assert => {
     assert.deepEqual(options, {
       protocol: 'https',
       port: '',
-      host: 'pets.com',
+      hostname: 'pets.com',
       method: 'get',
       path: '/pets/1',
       headers: {},
@@ -77,7 +77,7 @@ test('global defaults', assert => {
     assert.deepEqual(options, {
       protocol: 'https',
       port: '',
-      host: 'pets.com',
+      hostname: 'pets.com',
       method: 'get',
       path: '/pets/1?name=ruby&is_good=yes',
       headers: { 'x-pet-type': 'dog' },
@@ -105,7 +105,7 @@ test('sub path in server', assert => {
     assert.deepEqual(options, {
       protocol: 'https',
       port: '',
-      host: 'pets.com',
+      hostname: 'pets.com',
       method: 'get',
       path: '/api/v1-0-0/pets/1?name=ruby&is_good=yes',
       headers: { 'x-pet-type': 'dog' },
@@ -133,7 +133,7 @@ test('sub path in server without slashes', assert => {
     assert.deepEqual(options, {
       protocol: 'https',
       port: '',
-      host: 'pets.com',
+      hostname: 'pets.com',
       method: 'get',
       path: '/api/v1-0-0/pets/1?name=ruby&is_good=yes',
       headers: { 'x-pet-type': 'dog' },
