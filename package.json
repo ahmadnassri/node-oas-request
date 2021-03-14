@@ -23,10 +23,21 @@
   "bugs": {
     "url": "https://github.com/ahmadnassri/node-oas-request/issues"
   },
+  "tap": {
+    "esm": false,
+    "ts": false,
+    "jsx": false,
+    "flow": false,
+    "coverage": true,
+    "browser": false,
+    "color": true,
+    "coverage-report": "html"
+  },
   "scripts": {
     "test": "tap test --no-coverage",
     "test:watch": "tap test --watch",
-    "test:ci": "tap test --100 --color --coverage-report=lcov --no-browser"
+    "test:ci": "tap test --100",
+    "test:report": "opener coverage/lcov-report/index.html"
   },
   "devDependencies": {
     "sinon": "^10.0.0",
