@@ -10,14 +10,29 @@ delete require.cache[require.resolve('../lib/http/')]
 // override required module
 require.cache[require.resolve('../lib/http/')] = { exports: http }
 
+const oasRequest = require('..')
 const spec = require('./fixtures/petstore.json')
-const client = require('..')
+const OASRequestError = require('../lib/error')
+
+test('throws if no spec', assert => {
+  assert.plan(2)
+
+  assert.throws(() => oasRequest(), new OASRequestError('missing argument: spec'))
+  assert.throws(() => oasRequest({}), new OASRequestError('missing argument: spec'))
+})
+
+test('throws if no serverOptions', assert => {
+  assert.plan(1)
+
+  const API = oasRequest(spec)
+  assert.throws(() => new API())
+})
 
 test('generates methods', assert => {
   assert.plan(3)
 
-  const API = client(spec)
-  const api = new API('https://pets.com')
+  const API = oasRequest(spec)
+  const api = new API({ server: 'https://pets.com' })
 
   assert.type(api.listPets, Function)
   assert.type(api.createPets, Function)
@@ -39,8 +54,8 @@ test('methods are callable', assert => {
     })
   })
 
-  const API = client(spec)
-  const api = new API('https://pets.com')
+  const API = oasRequest(spec)
+  const api = new API({ server: 'https://pets.com' })
 
   api.showPetById()
 })
@@ -60,8 +75,8 @@ test('methods options', assert => {
     })
   })
 
-  const API = client(spec)
-  const api = new API('https://pets.com')
+  const API = oasRequest(spec)
+  const api = new API({ server: 'https://pets.com' })
 
   api.showPetById({
     params: {
@@ -85,9 +100,10 @@ test('global defaults', assert => {
     })
   })
 
-  const API = client(spec)
+  const API = oasRequest(spec)
 
-  const api = new API('https://pets.com', {
+  const api = new API({
+    server: 'https://pets.com',
     headers: { 'x-pet-type': 'dog' },
     params: { petId: 1 },
     query: { name: 'ruby' }
@@ -113,9 +129,10 @@ test('sub path in server', assert => {
     })
   })
 
-  const API = client(spec)
+  const API = oasRequest(spec)
 
-  const api = new API('https://pets.com/api/v1-0-0', {
+  const api = new API({
+    server: 'https://pets.com/api/v1-0-0',
     headers: { 'x-pet-type': 'dog' },
     params: { petId: 1 },
     query: { name: 'ruby' }
@@ -141,9 +158,10 @@ test('sub path in server without slashes', assert => {
     })
   })
 
-  const API = client(spec)
+  const API = oasRequest(spec)
 
-  const api = new API('https://pets.com/api/v1-0-0/', {
+  const api = new API({
+    server: 'https://pets.com/api/v1-0-0/',
     headers: { 'x-pet-type': 'dog' },
     params: { petId: 1 },
     query: { name: 'ruby' }

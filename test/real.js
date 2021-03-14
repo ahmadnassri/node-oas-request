@@ -4,7 +4,7 @@ const spec = require('./fixtures/httpbin.json')
 const client = require('../lib')
 
 const API = client(spec)
-const api = new API('https://httpbin.org:443')
+const api = new API({ server: 'https://httpbin.org:443' })
 
 test('generates methods', assert => {
   assert.plan(4)
