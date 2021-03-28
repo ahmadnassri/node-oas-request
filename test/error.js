@@ -1,5 +1,4 @@
 const { test } = require('tap')
-const { sep } = require('path')
 
 const OASRequestError = require('../lib/error')
 

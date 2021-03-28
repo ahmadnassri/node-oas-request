@@ -58,7 +58,7 @@ test('populates the server.url with spec variables', assert => {
 
   const spec = {
     servers: [{
-      url: 'localhost',
+      url: 'localhost/{foo}',
       variables: { foo: { default: 'bar' } }
     }]
   }
