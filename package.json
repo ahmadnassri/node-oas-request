@@ -8,6 +8,10 @@
     "type": "git",
     "url": "https://github.com/ahmadnassri/node-oas-request.git"
   },
+  "funding": {
+    "type" : "individual",
+    "url" : "https://github.com/sponsors/ahmadnassri"
+  },
   "license": "MIT",
   "main": "lib/index.js",
   "keywords": [
