@@ -1,8 +1,9 @@
 const { test } = require('tap')
+const { sep } = require('path')
 
 const OASRequestError = require('../lib/error')
 
-const regex = /(\w|\/)+test\/error\.js:\d{2}:\d{2}/
+const regex = /error\.js:\d{2}:\d{2}/
 
 test('Empty ExtendableError', assert => {
   assert.plan(5)
