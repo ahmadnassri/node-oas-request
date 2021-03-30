@@ -15,6 +15,28 @@ test('throws if no server.url', assert => {
   assert.throws(() => parseServer({}), new OASRequestError('missing argument: server.url'))
 })
 
+test('uses the first server in the spec if no server provided', assert => {
+  assert.plan(1)
+
+  const spec = {
+    servers: [
+      { url: 'foo' }
+    ]
+  }
+
+  const url = parseServer(undefined, spec)
+
+  assert.equal(url, 'foo')
+})
+
+test('throws if no server.url', assert => {
+  assert.plan(1)
+  const spec = {
+    servers: []
+  }
+  assert.throws(() => parseServer(undefined, spec), new OASRequestError('missing argument: server'))
+})
+
 test('returns the server.url', assert => {
   assert.plan(1)
 

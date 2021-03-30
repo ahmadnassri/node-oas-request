@@ -2,13 +2,12 @@ const { test } = require('tap')
 const sinon = require('sinon')
 
 // create stub
-const http = sinon.stub()
+const fetch = sinon.stub()
 
-// delete require cache
-delete require.cache[require.resolve('../lib/http/')]
+delete require.cache[require.resolve('isomorphic-unfetch')]
 
 // override required module
-require.cache[require.resolve('../lib/http/')] = { exports: http }
+require.cache[require.resolve('isomorphic-unfetch')] = { exports: fetch }
 
 const oasRequest = require('..')
 const spec = require('./fixtures/petstore.json')
@@ -21,11 +20,13 @@ test('throws if no spec', assert => {
   assert.throws(() => oasRequest({}), new OASRequestError('missing argument: spec'))
 })
 
-test('throws if no serverOptions', assert => {
+test('throws if no server', assert => {
   assert.plan(1)
 
-  const API = oasRequest(spec)
-  assert.throws(() => new API())
+  const API = oasRequest({
+    paths: {}
+  })
+  assert.throws(() => new API(), new OASRequestError('missing argument: server'))
 })
 
 test('generates methods', assert => {
@@ -40,17 +41,13 @@ test('generates methods', assert => {
 })
 
 test('methods are callable', assert => {
-  assert.plan(1)
+  assert.plan(2)
 
-  http.callsFake(options => {
+  fetch.callsFake((url, options) => {
+    assert.match(url, new URL('http://pets.com/pets/%7BpetId%7D'))
     assert.deepEqual(options, {
-      protocol: 'https',
-      port: '',
-      hostname: 'pets.com',
       method: 'get',
-      path: '/pets/%7BpetId%7D',
-      headers: {},
-      body: undefined
+      headers: {}
     })
   })
 
@@ -61,17 +58,13 @@ test('methods are callable', assert => {
 })
 
 test('methods options', assert => {
-  assert.plan(1)
+  assert.plan(2)
 
-  http.callsFake(options => {
+  fetch.callsFake((url, options) => {
+    assert.match(url, new URL('https://pets.com/pets/1'))
     assert.deepEqual(options, {
-      protocol: 'https',
-      port: '',
-      hostname: 'pets.com',
       method: 'get',
-      path: '/pets/1',
-      headers: {},
-      body: undefined
+      headers: {}
     })
   })
 
@@ -86,17 +79,13 @@ test('methods options', assert => {
 })
 
 test('global defaults', assert => {
-  assert.plan(1)
+  assert.plan(2)
 
-  http.callsFake(options => {
+  fetch.callsFake((url, options) => {
+    assert.match(url, new URL('https://pets.com/pets/1?name=ruby&is_good=yes'))
     assert.deepEqual(options, {
-      protocol: 'https',
-      port: '',
-      hostname: 'pets.com',
       method: 'get',
-      path: '/pets/1?name=ruby&is_good=yes',
-      headers: { 'x-pet-type': 'dog' },
-      body: undefined
+      headers: { 'x-pet-type': 'dog' }
     })
   })
 
@@ -104,64 +93,6 @@ test('global defaults', assert => {
 
   const api = new API({
     server: 'https://pets.com',
-    headers: { 'x-pet-type': 'dog' },
-    params: { petId: 1 },
-    query: { name: 'ruby' }
-  })
-
-  api.showPetById({
-    query: { is_good: 'yes' }
-  })
-})
-
-test('sub path in server', assert => {
-  assert.plan(1)
-
-  http.callsFake(options => {
-    assert.deepEqual(options, {
-      protocol: 'https',
-      port: '',
-      hostname: 'pets.com',
-      method: 'get',
-      path: '/api/v1-0-0/pets/1?name=ruby&is_good=yes',
-      headers: { 'x-pet-type': 'dog' },
-      body: undefined
-    })
-  })
-
-  const API = oasRequest(spec)
-
-  const api = new API({
-    server: 'https://pets.com/api/v1-0-0',
-    headers: { 'x-pet-type': 'dog' },
-    params: { petId: 1 },
-    query: { name: 'ruby' }
-  })
-
-  api.showPetById({
-    query: { is_good: 'yes' }
-  })
-})
-
-test('sub path in server without slashes', assert => {
-  assert.plan(1)
-
-  http.callsFake(options => {
-    assert.deepEqual(options, {
-      protocol: 'https',
-      port: '',
-      hostname: 'pets.com',
-      method: 'get',
-      path: '/api/v1-0-0/pets/1?name=ruby&is_good=yes',
-      headers: { 'x-pet-type': 'dog' },
-      body: undefined
-    })
-  })
-
-  const API = oasRequest(spec)
-
-  const api = new API({
-    server: 'https://pets.com/api/v1-0-0/',
     headers: { 'x-pet-type': 'dog' },
     params: { petId: 1 },
     query: { name: 'ruby' }

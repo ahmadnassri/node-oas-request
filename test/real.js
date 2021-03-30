@@ -16,26 +16,28 @@ test('generates methods', assert => {
 })
 
 test('GET /', async assert => {
-  assert.plan(1)
+  assert.plan(5)
 
-  const result = await api.httpGet()
+  const response = await api.httpGet()
 
-  assert.match(result, {
+  const body = await response.json()
+
+  assert.ok(response.ok)
+  assert.equal(response.status, 200)
+  assert.equal(response.statusText, 'OK')
+  assert.match(response.headers.raw(), {
+    connection: ['close'],
+    'content-type': ['application/json'],
+    'access-control-allow-origin': ['*'],
+    'access-control-allow-credentials': ['true']
+  })
+
+  assert.match(body, {
+    url: 'https://httpbin.org/get',
+    args: {},
     headers: {
-      'content-type': 'application/json',
-      connection: 'close',
-      'access-control-allow-origin': '*',
-      'access-control-allow-credentials': 'true'
-    },
-    statusCode: 200,
-    statusMessage: 'OK',
-    body: {
-      args: {},
-      headers: {
-        Accept: 'application/json',
-        Host: 'httpbin.org'
-      },
-      url: 'https://httpbin.org/get'
+      Accept: '*/*',
+      Host: 'httpbin.org'
     }
   })
 })
@@ -43,15 +45,24 @@ test('GET /', async assert => {
 test('POST plain', async assert => {
   assert.plan(1)
 
-  const result = await api.httpPost({ body: 'foo' })
+  const response = await api.httpPost({ body: 'foo' })
 
-  assert.match(result.body, { data: '"foo"' })
+  const body = await response.json()
+
+  assert.match(body, { data: 'foo' })
 })
 
 test('POST json', async assert => {
   assert.plan(1)
 
-  const result = await api.httpPost({ body: { foo: 'bar' } })
+  const response = await api.httpPost({
+    headers: {
+      'content-type': 'application/json'
+    },
+    body: JSON.stringify({ foo: 'bar' })
+  })
 
-  assert.match(result.body, { data: '{"foo":"bar"}', json: { foo: 'bar' } })
+  const body = await response.json()
+
+  assert.match(body, { data: '{"foo":"bar"}', json: { foo: 'bar' } })
 })

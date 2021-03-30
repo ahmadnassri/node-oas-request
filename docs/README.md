@@ -14,28 +14,29 @@ This library does not concern itself with anything other than constructing an HT
 - **YAML Support?**  
       This package **does not** natively support OpenAPI Specification YAML format, but you can easily convert to JSON before calling `oas-rqeuest`
 
-      <details>
-        <summary>Example</summary>
+    <details>
+      <summary>Example</summary>
 
-        ###### using [`YAML`](https://www.npmjs.com/package/yaml)
+  ###### using [`YAML`](https://www.npmjs.com/package/yaml)
 
-        ```js
-        const YAML = require('yaml')
-        const { readFile } = require('fs/promises')
+  ```js
+  const YAML = require('yaml')
+  const { readFile } = require('fs/promises')
 
-        const file = await readFile('openapi.yml', 'utf8')
-        
-        const spec = YAML.parse(file)
+  const file = await readFile('openapi.yml', 'utf8')
 
-        const API = require('oas-request')(spec)
-        ```
+  const spec = YAML.parse(file)
 
-        ###### using [`apidevtools/swagger-cli`](https://www.npmjs.com/package/@apidevtools/swagger-cli)
-        
-        ```bash
-        npx apidevtools/swagger-cli bundle spec/openapi.yml --outfile spec.json
-        ```
-      </details>
+  const OASRequest = require('oas-request')(spec)
+  ```
+
+  ###### using [`apidevtools/swagger-cli`](https://www.npmjs.com/package/@apidevtools/swagger-cli)
+
+  ```bash
+  npx apidevtools/swagger-cli bundle spec/openapi.yml --outfile spec.json
+  ```
+
+    </details>
 
   </details>
 
@@ -43,16 +44,14 @@ This library does not concern itself with anything other than constructing an HT
 
 Some feature highlights:
 
-- Zero dependencies!
-- Lightweight
-- Node.js and Browser ready _(browser support coming soon)_
 - Automatic methods creation
 - Path Templating
+- uses [`isomorphic-unfetch`] for all HTTP operations
 
 ## Usage
 
 <details>
-<summary><em>e.g. <code>petstore.json</code></em></summary>
+  <summary><em>e.g. <code>petstore.json</code></em></summary>
 
 ```json
 {
@@ -176,15 +175,15 @@ Some feature highlights:
 
 ```js
 const spec = require('./petstore.json')
-const API = require('oas-request')(spec)
+const OASRequest = require('oas-request')(spec)
 
 // define root server url
-const client = new API({
+const request = new OASRequest({
   server: 'http://petstore.swagger.io/v1'
 })
 
 // or use one from the OpenAPI Specification
-const client = new API({
+const request = new OASRequest({
   server: {
     url: spec.servers[0].url
     // populate values for server (see OpenAPI Specification #4.7.5)
@@ -195,14 +194,40 @@ const client = new API({
 })
 
 // auto generated methods match OpenAPI Specification "operationId"
-await client.listPets()
-await client.createPets()
-await client.showPetById()
+await request.listPets()
+await request.createPets()
+await request.showPetById()
 ```
 
-### `API(clientOptions)`
+<details>
+<summary><em>Advanced Usage</em></summary>
 
-Construct a new instance of the api client, returns an Object with auto generated method names matching each of the unique OpenAPI Specification [`operationId`][operation-id]
+```js
+const spec = require('./petstore.json')
+const OASRequest = require('oas-request')(spec)
+
+// always use JSON headers
+const request = new OASRequest({
+  server: 'http://petstore.swagger.io/v1'
+  headers: {
+    'accept': 'application/json',
+    'content-type': 'application/json'
+  }
+})
+
+// POST with JSON
+const body = JSON.stringify(body)
+const response = await request.createPets({ body })
+const data = await response.json()
+
+console.log(data)
+```
+
+</details>
+
+### `new OASRequest(APIOptions)`
+
+Construct a new instance of the API request, returns an Object with auto generated method names matching each of the unique OpenAPI Specification [`operationId`][operation-id]
 
 <details>
 <summary><em>Example</em></summary>
@@ -236,28 +261,114 @@ Construct a new instance of the api client, returns an Object with auto generate
 ###### `app.js`
 
 ```js
-const spec = require('./spec.json')
-const API = require('oas-request')(spec)
+const spec = require('./petstore.json')
+const OASRequest = require('oas-request')(spec)
 
 // define root server url
-const client = new API({ server: 'http://petstore.swagger.io/v1' })
+const request = new OASRequest({ server: 'http://petstore.swagger.io/v1' })
 
 // auto generated methods match OpenAPI Specification "operationId"
-await client.listPets()
-await client.createPets()
-await client.showPetById()
+await request.listPets()
+await request.createPets()
+await request.showPetById()
 ```
 
 </details>
 
-#### `clientOptions`
+#### `APIOptions`
 
-| property      | type            | required | description                                                                      |
-| ------------- | --------------- | -------- | -------------------------------------------------------------------------------- |
-| **`server`**  | `String｜Object` | ✔        | Root server url, or [`Server Object`](#server-object)                            |
-| **`headers`** | `Object`        | ✖        | Global HTTP request headers _(used with every request)_                          |
-| **`query`**   | `Object`        | ✖        | Global Query String _(used with every request)_                                  |
-| **`params`**  | `Object`        | ✖        | Global [Path Templating][path-templating] parameters _(used with every request)_ |
+| property      | type            | required | default                      | description                                                                            |
+| ------------- | --------------- | -------- | ---------------------------- | -------------------------------------------------------------------------------------- |
+| **`client`**  | `Function`      | ✗        | [`unfetch`](#clientFunction) | a Function that executes the HTTP request. _(see [`clientFunction`](#clientfunction))_ |
+| **`server`**  | `String｜Object` | ✗        | `spec.servers[0]`            | Root server url String, or [`Server Object`](#serverobject)                            |
+| **`headers`** | `Object`        | ✗        | `{}`                         | Global HTTP request headers _(used with every request)_                                |
+| **`query`**   | `Object`        | ✗        | `{}`                         | Global Query String _(used with every request)_                                        |
+| **`params`**  | `Object`        | ✗        | `{}`                         | Global [Path Templating][path-templating] parameters _(used with every request)_       |
+
+##### `clientFunction`
+
+a `Function` with the signature: `Function(url, requestOptions)` to execute the HTTP request, the default built-in function uses [`isomorphic-unfetch`], you can customize the client to use whatever HTTP library you prefer.
+
+> **⚠️ Note**: 
+>
+> - `url` is an instance of [`URL`](https://developer.mozilla.org/en-US/docs/Web/API/URL)
+> - `options.query` will be processed to construct the `url`, then deleted.
+> - `options.params` will be processed and used in Path Templating, then deleted.
+
+<details>
+<summary><em>Example: always assume JSON</em></summary>
+
+```js
+const spec = require('./petstore.json')
+const fetch = require('isomorphic-unfetch')
+const OASRequest = require('oas-request')(spec)
+
+const request = new OASRequest({
+  client: async function (url, options) {
+    const response = await fetch(url, {
+      ...options,
+
+      // always set body to JSON
+      body: JSON.stringify(options.body),
+
+      headers: {
+        ...options.headers,
+        // always set headers to JSON
+        ...{
+          'accept': 'application/json',
+          'content-type': 'application/json'
+        }
+      }
+    })
+
+    // always parse body as JSON
+    response.data = await response.json()
+
+    return response
+  }
+})
+
+const response = await request.createPet({
+  body { 
+    id: 1,
+    name: 'Ruby'
+  }
+})
+
+console.log(response.data)
+```
+
+</details>
+
+<details>
+<summary><em>Example: using <code>axios</code></summary>
+
+```js
+const spec = require('./petstore.json')
+const axios = require('axios')
+const OASRequest = require('oas-request')(spec)
+
+const request = new OASRequest({
+  client: async function (URL, options) {
+    return axios({ 
+      ...options, 
+      maxRedirects: 10,
+      url: URL.toString(),
+      httpsAgent: new https.Agent({ keepAlive: true })
+    })
+  }
+})
+
+const response = await request.createPet({
+  data: { 
+    id: 1,
+    name: 'Ruby'
+  },
+  timeout: 1000
+})
+```
+
+</details>
 
 ##### `ServerObject`
 
@@ -265,23 +376,21 @@ await client.showPetById()
 
 | property        | type     | required | description                                           |
 | --------------- | -------- | -------- | ----------------------------------------------------- |
-| **`url`**       | `String` | ✔        | Root server url                                       |
-| **`variables`** | `Object` | ✖        | Key-value pairs for  server URL template substitution |
+| **`url`**       | `String` | ✓        | Root server url                                       |
+| **`variables`** | `Object` | ✗        | Key-value pairs for  server URL template substitution |
 
 ### `__Operation__(requestOptions)`
 
-Operation method names are generated from the unique OpenAPI Specification [`operationId`][operation-id]
+- Operation method names are generated from the unique OpenAPI Specification [`operationId`][operation-id]
+- Operations method will return with a call to the specified [`Client Function`](clientFunction)
 
 #### `requestOptions`
 
-Each generated method accepts a `requestOptions` object with the following properties:
+The `requestOptions` Objects maps to [Fetch `init` parameter](https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch#parameters) with some special considerations:
 
-| name          | type     | required | description                                                                                       |
-| ------------- | -------- | -------- | ------------------------------------------------------------------------------------------------- |
-| **`body`**    | `Object` | ✖        | HTTP request body                                                                                 |
-| **`headers`** | `Object` | ✖        | HTTP request headers _(inherits from [`clientOptions`](#clientoptions))_                          |
-| **`query`**   | `Object` | ✖        | Query String _(inherits from [`clientOptions`](#clientoptions))_                                  |
-| **`params`**  | `Object` | ✖        | [Path Templating][path-templating] parameters _(inherits from [`clientOptions`](#clientoptions))_ |
+- `method` will always be set based on the OpenAPI Specification method for this operation
+- `query` is a special property used to construct the final URL
+- `params` is a special property used to construct the final URL Path _(Path Templating)_
 
 ## Full Example
 
@@ -290,7 +399,7 @@ const spec = require('./petstore.json')
 const API = require('oas-request')(spec)
 
 // send to httpbin so we can inspect the result
-const client = new API({
+const request = new OASRequest({
   server: 'http://petstore.swagger.io/v1',
   headers: {
     'user-agent': 'my-awsome-api-client',
@@ -298,20 +407,20 @@ const client = new API({
   }
 })
 
-await client.listPets({
+await request.listPets({
   query: {
     limit: 100
   }
 })
 
-await client.getPetById({
+await request.getPetById({
   params: { petId: 'my-pet' }
   headers: {
     'x-additional-header': 'this operation needs this'
   }
 })
 
-await client.updatePetById({
+await request.updatePetById({
   params: { petId: 'my-pet' },
   body: {
     name: "ruby",
@@ -323,4 +432,7 @@ await client.updatePetById({
 [server-object]: http://spec.openapis.org/oas/v3.0.3#server-object
 
 [path-templating]: http://spec.openapis.org/oas/v3.0.3#path-templating
+
 [operation-id]: http://spec.openapis.org/oas/v3.0.3#operation-object
+
+[`isomorphic-unfetch`]: https://www.npmjs.com/package/isomorphic-unfetch

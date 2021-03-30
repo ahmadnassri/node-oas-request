@@ -44,7 +44,11 @@
     "test:report": "opener coverage/lcov-report/index.html"
   },
   "devDependencies": {
+    "axios": "^0.21.1",
     "sinon": "^10.0.0",
     "tap": "^14.10.8"
+  },
+  "dependencies": {
+    "isomorphic-unfetch": "^3.1.0"
   }
 }
