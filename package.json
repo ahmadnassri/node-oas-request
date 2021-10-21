@@ -36,7 +36,7 @@
   "devDependencies": {
     "axios": "^0.23.0",
     "sinon": "^11.1.1",
-    "tap": "^14.10.8"
+    "tap": "^15.0.10"
   },
   "dependencies": {
     "isomorphic-unfetch": "^3.1.0"
