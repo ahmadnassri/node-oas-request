@@ -50,7 +50,7 @@ jobs:
         run: echo "::notice ::auto-merge conditions satisfied"
 
       - name: auto approve pr
-        if: ${{ steps.auto-merge.conclusion = 'success' }}
+        if: ${{ steps.auto-merge.conclusion == 'success' }}
         run: |
           gh pr review --approve "$PR_URL"
           gh pr merge --auto --merge "$PR_URL"
