@@ -42,10 +42,10 @@ jobs:
         if: |
           (
             steps.dependabot.outputs.update-type == 'version-update:semver-patch' &&
-            contains(['direct:production', 'indirect:production'], steps.dependabot.outputs.dependency-type)
+            contains('direct:production,indirect:production', steps.dependabot.outputs.dependency-type)
           ) || (
             steps.dependabot.outputs.update-type == 'version-update:semver-minor' &&
-            contains(['direct:development', 'indirect:development'], steps.dependabot.outputs.dependency-type)
+            contains('direct:development,indirect:development', steps.dependabot.outputs.dependency-type)
           )
         run: echo "::notice ::auto-merge conditions satisfied"
 
