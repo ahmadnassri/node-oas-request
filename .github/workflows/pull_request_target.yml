@@ -53,7 +53,7 @@ jobs:
         if: ${{ steps.auto-merge.conclusion == 'success' }}
         run: |
           gh pr review --approve "$PR_URL"
-          gh pr merge --auto --merge "$PR_URL"
+          gh pr merge --auto --rebase "$PR_URL"
 
   template-sync:
     needs: metadata
