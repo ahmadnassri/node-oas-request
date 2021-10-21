@@ -6,6 +6,10 @@ on: pull_request_target
 
 name: pull_request_target
 
+permissions:
+  pull-requests: write
+  contents: write
+
 jobs:
   metadata:
     runs-on: ubuntu-latest
