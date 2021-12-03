@@ -45,7 +45,7 @@ test('methods are callable', assert => {
 
   fetch.callsFake((url, options) => {
     assert.match(url, new URL('http://pets.com/pets/%7BpetId%7D'))
-    assert.deepEqual(options, {
+    assert.same(options, {
       method: 'get',
       headers: {}
     })
@@ -62,7 +62,7 @@ test('methods options', assert => {
 
   fetch.callsFake((url, options) => {
     assert.match(url, new URL('https://pets.com/pets/1'))
-    assert.deepEqual(options, {
+    assert.same(options, {
       method: 'get',
       headers: {}
     })
@@ -83,7 +83,7 @@ test('global defaults', assert => {
 
   fetch.callsFake((url, options) => {
     assert.match(url, new URL('https://pets.com/pets/1?name=ruby&is_good=yes'))
-    assert.deepEqual(options, {
+    assert.same(options, {
       method: 'get',
       headers: { 'x-pet-type': 'dog' }
     })

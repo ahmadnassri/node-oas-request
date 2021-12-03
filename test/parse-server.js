@@ -102,3 +102,25 @@ test('populates the server.url with server.variables', assert => {
 
   assert.equal(parseServer({ url: 'localhost/{foo}', variables: { foo: 'bar' } }, spec), 'localhost/bar')
 })
+
+test('populates the server.url with server.variables with colons', assert => {
+  assert.plan(1)
+
+  const spec = {
+    servers: [{
+      url: 'localhost',
+      variables: { foo: {} }
+    }]
+  }
+
+  assert.equal(parseServer({
+    url: '{protocol}://{host}:{port}/{path1}/{path2}',
+    variables: {
+      protocol: 'ftp',
+      host: 'localhost',
+      port: '8080',
+      path1: 'path1',
+      path2: 'path2'
+    }
+  }, spec), 'ftp://localhost:8080/path1/path2')
+})
