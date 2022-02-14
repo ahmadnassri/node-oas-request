@@ -34,7 +34,7 @@
     "test:report": "opener coverage/lcov-report/index.html"
   },
   "devDependencies": {
-    "axios": "^0.25.0",
+    "axios": "^0.26.0",
     "sinon": "^11.1.1",
     "tap": "^15.0.10"
   },
