@@ -34,11 +34,12 @@
     "test:report": "opener coverage/lcov-report/index.html"
   },
   "devDependencies": {
-    "axios": "^0.27.1",
-    "sinon": "^11.1.1",
-    "tap": "^15.0.10"
+    "axios": "^0.27.2",
+    "isomorphic-unfetch": "^3.1.0",
+    "sinon": "^14.0.0",
+    "tap": "^16.3.0"
   },
   "dependencies": {
-    "isomorphic-unfetch": "^3.1.0"
+    "cross-fetch": "^3.1.5"
   }
 }

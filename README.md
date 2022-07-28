@@ -4,8 +4,6 @@ Feed it a JSON Spec, it will spit out a lightweight HTTP client!
 
 [![license][license-img]][license-url]
 [![release][release-img]][release-url]
-[![super linter][super-linter-img]][super-linter-url]
-[![test][test-img]][test-url]
 [![semantic][semantic-img]][semantic-url]
 
 ## Why
@@ -56,7 +54,7 @@ Some feature highlights:
 
 -   Automatic methods creation
 -   Path Templating
--   uses [`isomorphic-unfetch`][] for all HTTP operations
+-   uses [`cross-fetch`][] for all HTTP operations
 
 ## Usage
 
@@ -297,7 +295,7 @@ await request.showPetById()
 
 ##### `clientFunction`
 
-a `Function` with the signature: `Function(url, requestOptions)` to execute the HTTP request, the default built-in function uses [`isomorphic-unfetch`][], you can customize the client to use whatever HTTP library you prefer.
+a `Function` with the signature: `Function(url, requestOptions)` to execute the HTTP request, the default built-in function uses [`cross-fetch`][], you can customize the client to use whatever HTTP library you prefer.
 
 > **⚠️ Note**:
 >
@@ -310,7 +308,7 @@ a `Function` with the signature: `Function(url, requestOptions)` to execute the 
 
 ``` js
 const spec = require('./petstore.json')
-const fetch = require('isomorphic-unfetch')
+const fetch = require('cross-fetch')
 const OASRequest = require('oas-request')(spec)
 
 const request = new OASRequest({
@@ -441,7 +439,7 @@ await request.updatePetById({
 
   [`YAML`]: https://www.npmjs.com/package/yaml
   [`apidevtools/swagger-cli`]: https://www.npmjs.com/package/@apidevtools/swagger-cli
-  [`isomorphic-unfetch`]: https://www.npmjs.com/package/isomorphic-unfetch
+  [`cross-fetch`]: https://github.com/lquixada/cross-fetch
   [`operationId`]: http://spec.openapis.org/oas/v3.0.3#operation-object
   [`unfetch`]: #clientFunction
   [`clientFunction`]: #clientfunction
@@ -461,12 +459,6 @@ await request.updatePetById({
 
 [release-url]: https://github.com/ahmadnassri/node-oas-request/releases
 [release-img]: https://badgen.net/github/release/ahmadnassri/node-oas-request
-
-[super-linter-url]: https://github.com/ahmadnassri/node-oas-request/actions?query=workflow%3Asuper-linter
-[super-linter-img]: https://github.com/ahmadnassri/node-oas-request/workflows/super-linter/badge.svg
-
-[test-url]: https://github.com/ahmadnassri/node-oas-request/actions?query=workflow%3Atest
-[test-img]: https://github.com/ahmadnassri/node-oas-request/workflows/test/badge.svg
 
 [semantic-url]: https://github.com/ahmadnassri/node-oas-request/actions?query=workflow%3Arelease
 [semantic-img]: https://badgen.net/badge/📦/semantically%20released/blue

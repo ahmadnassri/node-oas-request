@@ -4,10 +4,10 @@ const sinon = require('sinon')
 // create stub
 const fetch = sinon.stub()
 
-delete require.cache[require.resolve('isomorphic-unfetch')]
+delete require.cache[require.resolve('cross-fetch')]
 
 // override required module
-require.cache[require.resolve('isomorphic-unfetch')] = { exports: fetch }
+require.cache[require.resolve('cross-fetch')] = { exports: fetch }
 
 const oasRequest = require('..')
 const spec = require('./fixtures/petstore.json')
