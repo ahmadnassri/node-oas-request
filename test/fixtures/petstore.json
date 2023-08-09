@@ -152,6 +152,7 @@
       },
       "Pets": {
         "type": "array",
+        "maxItems": 2,
         "items": {
           "$ref": "#/components/schemas/Pet"
         }
