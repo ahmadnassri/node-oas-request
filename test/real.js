@@ -1,18 +1,16 @@
 const { test } = require('tap')
 
-const spec = require('./fixtures/httpbin.json')
+const spec = require('./fixtures/mockbin.json')
 const client = require('../lib')
 
 const API = client(spec)
-const api = new API({ server: 'https://httpbin.org:443' })
+const api = new API()
 
 test('generates methods', assert => {
-  assert.plan(4)
+  assert.plan(2)
 
-  assert.type(api.getIP, Function)
   assert.type(api.httpGet, Function)
   assert.type(api.httpPost, Function)
-  assert.type(api.httpDelete, Function)
 })
 
 test('GET /', async assert => {
@@ -33,11 +31,11 @@ test('GET /', async assert => {
   })
 
   assert.match(body, {
-    url: 'https://httpbin.org/get',
-    args: {},
+    url: 'https://mockbin.org/request',
+    queryString: {},
     headers: {
-      Accept: '*/*',
-      Host: 'httpbin.org'
+      accept: '*/*',
+      host: 'ockbin.org'
     }
   })
 })
@@ -49,7 +47,7 @@ test('POST plain', async assert => {
 
   const body = await response.json()
 
-  assert.match(body, { data: 'foo' })
+  assert.match(body, { postData: { text: 'foo' } })
 })
 
 test('POST json', async assert => {
@@ -64,5 +62,5 @@ test('POST json', async assert => {
 
   const body = await response.json()
 
-  assert.match(body, { data: '{"foo":"bar"}', json: { foo: 'bar' } })
+  assert.match(body, { postData: { text: '{"foo":"bar"}' } })
 })

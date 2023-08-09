@@ -1,6 +1,6 @@
 const { test } = require('tap')
 
-const spec = require('./fixtures/httpbin.json')
+const spec = require('./fixtures/mockbin.json')
 const OASRequest = require('../lib')(spec)
 
 const fetch = require('isomorphic-unfetch')
@@ -44,7 +44,7 @@ test('JSONRequest', async assert => {
     body: { foo: 'bar' }
   })
 
-  assert.match(response.data, { data: '{"foo":"bar"}', json: { foo: 'bar' } })
+  assert.match(response.data, { postData: { text: '{"foo":"bar"}' } })
 })
 
 test('axiosRequest', async assert => {
@@ -54,5 +54,5 @@ test('axiosRequest', async assert => {
     data: { foo: 'bar' }
   })
 
-  assert.match(response.data, { data: '{"foo":"bar"}', json: { foo: 'bar' } })
+  assert.match(response.data, { postData: { text: '{"foo":"bar"}' } })
 })

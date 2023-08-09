@@ -1,0 +1,48 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "mockbin",
+    "description": "An unofficial Mockbin definition for [mockbin.org](https://httpbin.org)."
+  },
+  "servers": [
+    {
+      "url": "https://mockbin.org"
+    }
+  ],
+  "paths": {
+    "/request": {
+      "get": {
+        "operationId": "httpGet",
+        "summary": "Returns back all the info sent through your request in HAR Request Object format.",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "httpPost",
+        "summary": "Returns back all the info sent through your request in HAR Request Object format.",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
