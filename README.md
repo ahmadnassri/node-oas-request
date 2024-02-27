@@ -285,13 +285,14 @@ await request.showPetById()
 
 #### `APIOptions`
 
-| property      | type             | required | default           | description                                                             |
-|---------------|------------------|----------|-------------------|-------------------------------------------------------------------------|
-| **`client`**  | `Function`       | ✗        | [`unfetch`][]     | a Function that executes the HTTP request. *(see [`clientFunction`][])* |
-| **`server`**  | `String｜Object` | ✗        | `spec.servers[0]` | Root server url String, or [`Server Object`][]                          |
-| **`headers`** | `Object`         | ✗        | `{}`              | Global HTTP request headers *(used with every request)*                 |
-| **`query`**   | `Object`         | ✗        | `{}`              | Global Query String *(used with every request)*                         |
-| **`params`**  | `Object`         | ✗        | `{}`              | Global [Path Templating][] parameters *(used with every request)*       |
+| property            | type            | required | default                          | description                                                                    |
+|---------------------|-----------------|----------|----------------------------------|--------------------------------------------------------------------------------|
+| **`client`**        | `Function`      | ✗        | [`unfetch`][]                    | a Function that executes the HTTP request. *(see [`clientFunction`][])*        |
+| **`clientFactory`** | `Function`      | x        | `function () { return unfetch }` | a Function that returns a client Function. *(see [`clientFactoryFunction`][])* |
+| **`server`**        | `String｜Object` | ✗        | `spec.servers[0]`                | Root server url String, or [`Server Object`][]                                 |
+| **`headers`**       | `Object`        | ✗        | `{}`                             | Global HTTP request headers *(used with every request)*                        |
+| **`query`**         | `Object`        | ✗        | `{}`                             | Global Query String *(used with every request)*                                |
+| **`params`**        | `Object`        | ✗        | `{}`                             | Global [Path Templating][] parameters *(used with every request)*              |
 
 ##### `clientFunction`
 
@@ -349,7 +350,7 @@ console.log(response.data)
 </details>
 
 <details>
-<summary><em>Example: using <code>axios</code></summary>
+<summary><em>Example: using <code>axios</code></em></summary>
 
 ``` js
 const spec = require('./petstore.json')
@@ -377,6 +378,10 @@ const response = await request.createPet({
 ```
 
 </details>
+
+##### `clientFactoryFunction`
+
+a `Function` with the signature: `Function(url, requestOptions, spec)` to return a client function to execute the HTTP request, by default this will return the passed in `client` option or uses the default [`isomorphic-unfetch`][], you can customize the client to use whatever HTTP library you prefer.
 
 ##### `ServerObject`
 
